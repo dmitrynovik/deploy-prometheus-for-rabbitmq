@@ -21,11 +21,11 @@ sudo kubectl apply -f prom_svc.yaml
 echo "Creating Prometheus RabbitMQ service monitor"
 sudo kubectl apply -f https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/observability/prometheus/monitors/rabbitmq-servicemonitor.yml
 
-echo "Installing Grafana into the namespace: $grafana_namespace"
-sudo helm repo add grafana https://grafana.github.io/helm-charts
-sudo helm repo update
-sudo kubectl create namespace $grafana_namespace --dry-run=client -o yaml | sudo kubectl apply -f-
-sudo helm upgrade --install $grafana_chart_name grafana/grafana --namespace $grafana_namespace
+echo "Installing Grafana into the namespace: $grafana_namespace as described here: https://grafana.com/docs/grafana/latest/setup-grafana/installation/kubernetes/"
+# sudo helm repo add grafana https://grafana.github.io/helm-charts
+# sudo helm repo update
+# sudo kubectl create namespace $grafana_namespace --dry-run=client -o yaml | sudo kubectl apply -f-
+# sudo helm upgrade --install $grafana_chart_name grafana/grafana --namespace $grafana_namespace
 echo "Exposing Grafana on port 3000"
 sudo kubectl -n $grafana_namespace apply -f grafana_load_balancer_service.yaml
 sudo kubectl -n $grafana_namespace get svc
